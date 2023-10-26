@@ -1,0 +1,7 @@
+---
+title: "test"
+output: html_document
+date: "2023-10-26"
+---
+
+x<- 1+1
