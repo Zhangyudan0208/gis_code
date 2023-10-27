@@ -1,0 +1,48 @@
+---
+title: "homework4"
+output: html_document
+date: "2023-10-27"
+---
+```{r}
+library(janitor)
+library(sf)
+library(here)
+library(readr)
+library(dplyr)
+```
+
+###添加csv
+```{r}
+origindata <- read.csv("D:/Term1/gis/prac/gis/week4prac/home4/HDR21-22_Composite_indices_complete_time_series.csv")
+```
+
+###提取2010-2019不平等
+```{r}
+data2010_2019 <- origindata [c('country', 'gii_2010', 'gii_2019')]
+```
+
+###生成带名字加差异的csv
+```{r}
+differdata2010_2019 <- data2010_2019 %>% 
+  mutate(Difference = gii_2019 - gii_2010)
+```
+
+###添加世界shp
+```{r}
+worlddata <- st_read("D:/Term1/gis/prac/gis/week4prac/home4/World_Countries_Generalized")
+```
+```{r}
+
+cleaned_differdata10_19 <- na.omit(differdata2010_2019)
+```
+
+```{r}
+
+```
+
+###将csvjoin到世界shp中
+```{r}
+joined_worlddata <- left_join(cleaned_differdata10_19, worlddata, by = "country")
+```
+
+###生成地图
