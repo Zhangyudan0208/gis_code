@@ -29,7 +29,9 @@ differdata2010_2019 <- data2010_2019 %>%
 
 ###添加世界shp
 ```{r}
-worlddata <- st_read("D:/Term1/gis/prac/gis/week4prac/home4/World_Countries_Generalized")
+worlddata <- sf::st_read("D:/Term1/gis/prac/gis/week4prac/home4/World_Countries_Generalized/World_Countries_Generalized.shp")%>%
+  clean_names()
+
 ```
 ```{r}
 
@@ -37,12 +39,30 @@ cleaned_differdata10_19 <- na.omit(differdata2010_2019)
 ```
 
 ```{r}
-
-```
+colnames(cleaned_differdata10_191) <- toupper(colnames(cleaned_differdata10_191))
+``````
 
 ###将csvjoin到世界shp中
 ```{r}
-joined_worlddata <- left_join(cleaned_differdata10_19, worlddata, by = "country")
+joined_worlddata <- left_join(worlddata, cleaned_differdata10_19, by = "country")
 ```
 
 ###生成地图
+
+```{r}
+library(tmap)
+```
+
+```{r}
+
+tmap_mode('plot')
+tm_shape(joined_worlddata)+
+  tm_polygons('Difference',
+              style='quantile',n=4,
+              palette='YlOrRd',
+              title='Gender inequality')+
+  tm_layout(title='Gender inequality between 2010 and 2019',
+            legend.position = c("left", "bottom"))
+```
+```
+
